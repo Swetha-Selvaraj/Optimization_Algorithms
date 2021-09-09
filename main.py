@@ -1,32 +1,43 @@
-#FLOYD WARSHALL
-nV = 4
+#Number of queens
+print ("Enter the number of queens")
+N = int(input())
 
-INF = 999
+#chessboard
+#NxN matrix with all elements 0
+board = [[0]*N for _ in range(N)]
 
-def floyd_warshall(G):
-    distance = list(map(lambda i: list(map(lambda j: j, i)), G))
+def is_attack(i, j):
+    #checking if there is a queen in row or column
+    for k in range(0,N):
+        if board[i][k]==1 or board[k][j]==1:
+            return True
+    #checking diagonals
+    for k in range(0,N):
+        for l in range(0,N):
+            if (k+l==i+j) or (k-l==i-j):
+                if board[k][l]==1:
+                    return True
+    return False
 
-    # Adding vertices individually
-    for k in range(nV):
-        for i in range(nV):
-            for j in range(nV):
-                distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])
-    print_solution(distance)
+def N_queen(n):
+    #if n is 0, solution found
+    if n==0:
+        return True
+    for i in range(0,N):
+        for j in range(0,N):
+            '''checking if we can place a queen here or not
+            queen will not be placed if the place is being attacked
+            or already occupied'''
+            if (not(is_attack(i,j))) and (board[i][j]!=1):
+                board[i][j] = 1
+                #recursion
+                #wether we can put the next queen with this arrangment or not
+                if N_queen(n-1)==True:
+                    return True
+                board[i][j] = 0
 
+    return False
 
-# Printing the solution
-def print_solution(distance):
-    for i in range(nV):
-        for j in range(nV):
-            if(distance[i][j] == INF):
-                print("INF", end=" ")
-            else:
-                print(distance[i][j], end="  ")
-        print(" ")
-
-
-G = [[0, 3, INF, 5],
-         [2, 0, INF, 4],
-         [INF, 1, 0, INF],
-         [INF, INF, 2, 0]]
-floyd_warshall(G)
+N_queen(N)
+for i in board:
+    print (i)
