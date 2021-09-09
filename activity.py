@@ -1,19 +1,19 @@
 def printMaxActivities(s , f ):
     n = len(f)
-    print "The following activities are selected"
+    print ("The following activities are selected")
  
     # The first activity is always selected
     i = 0
-    print i,
+    print (i, end=" ")
  
     # Consider rest of the activities
-    for j in xrange(n):
+    for j in range(n):
  
         # If this activity has start time greater than
         # or equal to the finish time of previously
         # selected activity, then select it
         if s[j] >= f[i]:
-            print j,
+            print (j, end=" ")
             i = j
  
 # Driver program to test above function
